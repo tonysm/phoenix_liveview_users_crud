@@ -12,7 +12,20 @@
   <tbody>
 <%= for user <- @users do %>
     <tr>
-      <td><%= user.name %></td>
+      <%= if @editable_id == user.id do %>
+        <td>
+          <%= form_for @changeset, "#", [phx_submit: :save], fn f -> %>
+            <%= hidden_input f, :id, name: "id" %>
+            <%= text_input f, :name %>
+            <%= error_tag f, :name %>
+            <%= submit "Update", phx_disable_with: "Updating..." %>
+          <% end %>
+        </td>
+      <% else %>
+        <td phx-click="edit<%= user.id %>">
+          <%= user.name %>
+        </td>
+      <% end %>
       <td><%= user.email %></td>
 
       <td>
