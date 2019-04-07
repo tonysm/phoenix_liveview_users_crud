@@ -3,10 +3,11 @@ defmodule LiveviewTodoWeb.UserController do
 
   alias LiveviewTodo.Accounts
   alias LiveviewTodo.Accounts.User
+  alias Phoenix.LiveView
+  alias LiveviewTodoWeb.Users.Index
 
   def index(conn, _params) do
-    users = Accounts.list_users()
-    render(conn, "index.html", users: users)
+    LiveView.Controller.live_render(conn, Index, session: %{})
   end
 
   def new(conn, _params) do
